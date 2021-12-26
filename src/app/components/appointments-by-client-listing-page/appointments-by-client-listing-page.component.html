@@ -1,0 +1,63 @@
+<div class="justify-content-end d-flex mb-2 mt-2">
+  <button type="button" class="btn btn-primary" (click)="open(content)">New Appointment</button>
+</div>
+
+<table>
+  <tr>
+    <th>Action</th>
+    <th (click)="sort('name')" style="cursor:pointer">Name</th>
+    <th (click)="sort('surname')" style="cursor:pointer">Surname</th>
+    <th (click)="sort('date')" style="cursor:pointer">Date</th>
+    <th>Subject</th>
+    <th>Status</th>
+  </tr>
+  <tbody *ngFor="let data of getDatas | orderBy: key: reverse;index as i">
+    <tr>
+      <td style="max-width: 50px"><button type="button" class="btn btn-primary m-2" (click)="cancelAppointment(appointments[i])">Cancel</button></td>
+      <td>{{data.name}}</td>
+      <td>{{data.surname}}</td>
+      <td style="max-width: 100px;cursor:pointer">{{appointments[i].date}}</td>
+      <td>{{appointments[i].subject}}</td>
+      <td *ngIf="appointments[i].status == true">Approved</td>
+      <td *ngIf="appointments[i].status == false">Declined</td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #content let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <select [(ngModel)]="savedData.psyName" [ngModelOptions]="{standalone: true}">
+            <option *ngFor="let psy of psy">
+                {{psy.username}}
+            </option>
+          </select><br>
+          <div class="input-group mt-2 mb-2">
+            <input class="form-control" placeholder="yyyy-mm-dd"
+                   name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [(ngModel)]="savedData.date" [ngModelOptions]="{standalone: true}" >
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+            </div>
+          </div>
+          <label for="firstname">Subject</label>
+          <div class="input-group">
+            <input id="firstname" class="form-control" [(ngModel)]="savedData.subject" [ngModelOptions]="{standalone: true}" >
+          </div>
+          <div class="form-group mt-2">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="savedData.description" [ngModelOptions]="{standalone: true}" ></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary" (click)="save()" (click)="modal.close('Save click')">Save changes</button>
+    </div>
+  </div>
+</ng-template>

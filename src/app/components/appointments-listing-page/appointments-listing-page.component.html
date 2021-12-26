@@ -1,0 +1,30 @@
+<table>
+  <tr>
+    <th>Action</th>
+    <th (click)="sort('name')" style="cursor:pointer">Name</th>
+    <th (click)="sort('surname')" style="cursor:pointer">Surname</th>
+    <th (click)="sort('date')" style="cursor:pointer">Date</th>
+    <th>Subject</th>
+  </tr>
+  <tbody *ngFor="let item of getData | orderBy: key: reverse ;index as i">
+    <tr>
+      <td style="max-width: 50px"><button type="button" class="btn btn-primary m-2" (click)="approveAppointment(appointments[i])">Approve</button><button type="button" class="btn btn-primary" (click)="cancelAppointment(appointments[i])">Decline</button></td>
+      <td (click)="open(content,appointments[i].description)" style="cursor:pointer">{{item.name}}</td>
+      <td (click)="open(content,appointments[i].description)" style="cursor:pointer">{{item.surname}}</td>
+      <td style="max-width: 100px;cursor:pointer" (click)="open(content,appointments[i].description)">{{appointments[i].date}}</td>
+      <td (click)="open(content,appointments[i].description)" style="cursor:pointer">{{appointments[i].subject}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #content let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      {{modalDescription}}
+    </div>
+  </div>
+</ng-template>
